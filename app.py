@@ -48,6 +48,9 @@ def main():
             df_out = pd.merge(appdata, predicted_df, how='left', left_index=True, right_index=True)
             df_out['predicted_target'] = df_out['predicted_target'].apply(lambda x: 'Heart Problem' if x == 1 else 'No Heart Problem')
             st.write(df_out)
+            csv = df_out.to_csv().encode()
+            st.download_button(label="Download data as CSV", data=csv, file_name='large_df.csv', mime='text/csv')
+
 
     st.title("Heart Prediction")
     html_temp = """
