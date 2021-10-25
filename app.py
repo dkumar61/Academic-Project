@@ -3,12 +3,6 @@
 Created on Tuesday Oct 19 02:20:31 2021
 @author: Dhananjay Kumar
 """
-
-# -*- coding: utf-8 -*-
-"""
-Created on Tuesday Oct 19 02:20:31 2021
-@author: Dhananjay Kumar
-"""
 import numpy as np
 import pickle
 import pandas as pd
@@ -43,6 +37,16 @@ def main():
         prediction = classifier.predict([[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]])
         print(prediction)
         return prediction
+
+    st.title("Heart prediction model")
+    uploaded_file = st.file_uploader("Choose an excel file...", type="xlsx")
+    if st.button("model Predict"):
+        if uploaded_file is not None:
+            appdata = pd.read_excel(uploaded_file)
+            pred = classifier.predict(appdata)
+            predicted_df = pd.DataFrame(data=pred, columns=['predicted_target'], index=appdata.index.copy())
+            df_out = pd.merge(appdata, predicted_df, how='left', left_index=True, right_index=True)
+            st.write(df_out)
 
     st.title("Heart Prediction")
     html_temp = """
