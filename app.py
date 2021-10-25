@@ -46,6 +46,7 @@ def main():
             pred = classifier.predict(appdata)
             predicted_df = pd.DataFrame(data=pred, columns=['predicted_target'], index=appdata.index.copy())
             df_out = pd.merge(appdata, predicted_df, how='left', left_index=True, right_index=True)
+            df_out['predicted_target'] = df_out['predicted_target'].apply(lambda x: 'Heart Problem' if x == 1 else 'No Heart Problem')
             st.write(df_out)
 
     st.title("Heart Prediction")
