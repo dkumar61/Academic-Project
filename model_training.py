@@ -68,23 +68,23 @@ def main():
 
     # choose parameters
 
-    criterion = st.sidebar.radio('Criterion(measures the quality of split)', ('gini', 'entropy'), key='criterion')
-    splitter = st.sidebar.radio('Splitter (How to split at each node?)', ('best', 'random'), key='splitter')
+        criterion = st.sidebar.radio('Criterion(measures the quality of split)', ('gini', 'entropy'), key='criterion')
+        splitter = st.sidebar.radio('Splitter (How to split at each node?)', ('best', 'random'), key='splitter')
 
-    metrics = st.sidebar.multiselect('Select your metrics : ',
-                                     ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
+        metrics = st.sidebar.multiselect('Select your metrics : ',
+                                         ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
 
-    if st.sidebar.button('DT Classify', key='classify'):
-        st.subheader('Decision Tree Results')
-        model = DecisionTreeClassifier(criterion=criterion, splitter=splitter)
-        model.fit(x_train, y_train)
-        accuracy = model.score(x_test, y_test)
-        y_pred = model.predict(x_test)
-        st.write('Accuracy: ', accuracy.round(2) * 100, '%')
-        st.write('Precision: ', precision_score(y_test, y_pred, labels=class_names).round(2))
-        st.write('Recall: ', recall_score(y_test, y_pred, labels=class_names).round(2))
-        plot_metrics(metrics)
-        pickle.dump(model, open('dt_model.pkl', 'wb'))
+        if st.sidebar.button('Submit', key='1'):
+            st.subheader('Decision Tree Results')
+            model = DecisionTreeClassifier(criterion=criterion, splitter=splitter)
+            model.fit(x_train, y_train)
+            accuracy = model.score(x_test, y_test)
+            y_pred = model.predict(x_test)
+            st.write('Accuracy: ', accuracy.round(2) * 100, '%')
+            st.write('Precision: ', precision_score(y_test, y_pred, labels=class_names).round(2))
+            st.write('Recall: ', recall_score(y_test, y_pred, labels=class_names).round(2))
+            plot_metrics(metrics)
+            pickle.dump(model, open('dt_model.pkl', 'wb'))
 
     if classifier == 'Logistic Regression':
         st.sidebar.subheader('Model Parameters')
@@ -92,17 +92,17 @@ def main():
         max_iter = st.sidebar.slider('Maximum number of iterations', 100, 500, key='max_iter')
         metrics = st.sidebar.multiselect('Select your metrics?',
                                          ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
-    if st.sidebar.button('LR Classify', key='classify'):
-        st.subheader('Logistic Regression Results')
-        model = LogisticRegression(C=C, penalty='l2', max_iter=max_iter)
-        model.fit(x_train, y_train)
-        accuracy = model.score(x_test, y_test)
-        y_pred = model.predict(x_test)
-        st.write('Accuracy: ', accuracy.round(2) * 100, '%')
-        st.write('Precision: ', precision_score(y_test, y_pred, labels=class_names).round(2))
-        st.write('Recall: ', recall_score(y_test, y_pred, labels=class_names).round(2))
-        plot_metrics(metrics)
-        pickle.dump(model, open('lr_model.pkl', 'wb'))
+        if st.sidebar.button('Submit', key='1'):
+            st.subheader('Logistic Regression Results')
+            model = LogisticRegression(C=C, penalty='l2', max_iter=max_iter)
+            model.fit(x_train, y_train)
+            accuracy = model.score(x_test, y_test)
+            y_pred = model.predict(x_test)
+            st.write('Accuracy: ', accuracy.round(2) * 100, '%')
+            st.write('Precision: ', precision_score(y_test, y_pred, labels=class_names).round(2))
+            st.write('Recall: ', recall_score(y_test, y_pred, labels=class_names).round(2))
+            plot_metrics(metrics)
+            pickle.dump(model, open('lr_model.pkl', 'wb'))
 
     if classifier == 'Random Forest':
         st.sidebar.subheader('Model Hyperparameters')
@@ -111,17 +111,17 @@ def main():
         bootstrap = st.sidebar.radio('Bootstrap samples when building trees', ('True', 'False'), key='bootstrap')
         metrics = st.sidebar.multiselect('What metrics to plot?',
                                      ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
-    if st.sidebar.button('RF Classify', key='classify'):
-        st.subheader('Random Forest Results')
-        model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
-        model.fit(x_train, y_train)
-        accuracy = model.score(x_test, y_test)
-        y_pred = model.predict(x_test)
-        st.write('Accuracy: ', accuracy.round(2) * 100, '%')
-        st.write('Precision: ', precision_score(y_test, y_pred, labels=class_names).round(2))
-        st.write('Recall: ', recall_score(y_test, y_pred, labels=class_names).round(2))
-        plot_metrics(metrics)
-        pickle.dump(model, open('rf_model.pkl', 'wb'))
+        if st.sidebar.button('Submit', key='1'):
+            st.subheader('Random Forest Results')
+            model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, bootstrap=bootstrap, n_jobs=-1)
+            model.fit(x_train, y_train)
+            accuracy = model.score(x_test, y_test)
+            y_pred = model.predict(x_test)
+            st.write('Accuracy: ', accuracy.round(2) * 100, '%')
+            st.write('Precision: ', precision_score(y_test, y_pred, labels=class_names).round(2))
+            st.write('Recall: ', recall_score(y_test, y_pred, labels=class_names).round(2))
+            plot_metrics(metrics)
+            pickle.dump(model, open('rf_model.pkl', 'wb'))
 
     if st.sidebar.checkbox('Show raw data', False):
         st.subheader('Heart Disease Dataset')
